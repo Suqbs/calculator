@@ -1,26 +1,46 @@
-table {
-    border: 1px solid black;
-    margin: auto auto;
-    background-color: rgb(162,187,207);
+html,
+body {
+  height: 100vh;
+  margin: 0;
+  background-image: url("./img/thinker.jpg");
+  background-repeat: no-repeat;
+  background-color: #cccccc;
+}
+
+.container {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.innerDiv {
+  border: 3px solid green;
+}
+
+#calcu {
+  border: 1px solid black;
+  background-color: rgb(162, 187, 207);
+  text-align: center;
 }
 
 input[type="button"] {
-    width: 100%;
-    padding: 20px 40px;
-    background-color: rgb(29,56,73);
-    color: white;
-    font-size: 24px;
-    font-weight: bold;
-    border: none;
-    border-radius: 5px;
+  width: 100%;
+  padding: 20px 40px;
+  background-color: rgb(29, 56, 73);
+  color: white;
+  font-size: 24px;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
 }
 
 input[type="text"] {
-    padding: 20px 30px;
-    font-size: 24px;
-    font-weight: bold;
-    border: none;
-    border-radius: 5px;
-    border: 2px solid rgb(0, 0, 0, 0.2);
-    caret-color: transparent;
+  padding: 20px 30px;
+  font-size: 24px;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  border: 2px solid rgb(0, 0, 0, 0.2);
+  caret-color: transparent;
 }
