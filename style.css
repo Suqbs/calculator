@@ -28,7 +28,7 @@ body {
 
 input[type="button"] {
   width: 100%;
-  padding: 20px 40px;
+  padding: 30px 40px;
   background-color: rgb(29, 56, 73);
   color: white;
   font-size: 24px;
@@ -38,8 +38,10 @@ input[type="button"] {
 }
 
 input[type="text"] {
-  padding: 20px 30px;
-  font-size: 24px;
+  height: 90px;
+  width: 430px;
+  padding-left: 10px;
+  font-size: 52px;
   font-weight: bold;
   border: none;
   border-radius: 5px;
