@@ -38,22 +38,22 @@ keys.forEach((key) => {
       case "add":
       case "subtract":
       case "multiply":
-      case "divide":
-        {
+      case "divide": {
         const firstValue = calculator.dataset.firstValue;
         const operator = calculator.dataset.operator;
         const secondValue = displayedNum;
         key.classList.add("is-depressed");
 
         if (firstValue && operator && previousKeyType !== "operator") {
-          display.value = calculate(firstValue, operator, secondValue);
+          const calcValue = calculate(firstValue, operator, secondValue);
+          display.value = calcValue;
         }
 
         calculator.dataset.previousKeyType = "operator";
         calculator.dataset.operator = action; // Store wanted operator
         calculator.dataset.firstValue = displayedNum; // Store first entered number
         break;
-        }
+      }
       case "decimal":
         if (!displayedNum.includes(".")) {
           display.value = displayedNum + ".";
