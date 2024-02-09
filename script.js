@@ -3,20 +3,35 @@ const display = document.getElementById("result");
 const keys = calculator.querySelectorAll("td input[type='button']");
 
 keys.forEach((key) => {
-  key.addEventListener("click", (e) => {
-    const clickedKey = e.target;
+  key.addEventListener("click", () => {
     const action = key.dataset.action;
-    const keyValue = clickedKey.value;
+    const keyValue = key.value;
     const displayedNum = display.value;
-    console.log(keyValue);
-    console.log(displayedNum);
+    const previousKeyType = calculator.dataset.previousKeyType;
+
+    keys.forEach((k) => k.classList.remove("is-depressed"));
+
+    const calculate = (firstValue, operator, secondValue) => {
+      methods = {
+        add: (firstValue, secondValue) =>
+          parseFloat(firstValue) + parseFloat(secondValue),
+        subtract: (firstValue, secondValue) =>
+          parseFloat(firstValue) - parseFloat(secondValue),
+        multiply: (firstValue, secondValue) =>
+          parseFloat(firstValue) * parseFloat(secondValue),
+        divide: (firstValue, secondValue) =>
+          parseFloat(firstValue) / parseFloat(secondValue),
+      };
+      return methods[operator](firstValue, secondValue);
+    };
 
     if (!action) {
-      if (displayedNum === "0") {
+      if (displayedNum === "0" || previousKeyType === "operator") {
         display.value = keyValue;
       } else {
         display.value = displayedNum + keyValue;
       }
+      calculator.dataset.previousKeyType = "number";
     }
 
     switch (action) {
@@ -24,26 +39,43 @@ keys.forEach((key) => {
       case "subtract":
       case "multiply":
       case "divide":
-        console.log("operator key");
+        {
+        const firstValue = calculator.dataset.firstValue;
+        const operator = calculator.dataset.operator;
+        const secondValue = displayedNum;
+        key.classList.add("is-depressed");
+
+        if (firstValue && operator && previousKeyType !== "operator") {
+          display.value = calculate(firstValue, operator, secondValue);
+        }
+
+        calculator.dataset.previousKeyType = "operator";
+        calculator.dataset.operator = action; // Store wanted operator
+        calculator.dataset.firstValue = displayedNum; // Store first entered number
         break;
+        }
       case "decimal":
-        console.log("decimal key!");
-        display.value = displayedNum + ".";
+        if (!displayedNum.includes(".")) {
+          display.value = displayedNum + ".";
+        } else if (previousKeyType === "operator") {
+          display.value = "0.";
+        }
+
+        calculator.dataset.previousKeyType = "decimal";
         break;
       case "clear":
-        console.log("clear key!");
+        calculator.dataset.previousKeyType = "clear";
         break;
       case "calculate":
-        console.log("calculate key!");
+        const firstValue = calculator.dataset.firstValue;
+        const operator = calculator.dataset.operator;
+        const secondValue = displayedNum;
+
+        if (firstValue && operator) {
+          display.value = calculate(firstValue, operator, secondValue);
+        }
+        calculator.dataset.previousKeyType = "calculate";
         break;
     }
-    // if (
-    //   action === "add" ||
-    //   action === "subtract" ||
-    //   action === "multiply" ||
-    //   action === "divide"
-    // ) {
-    //   console.log("operator key!");
-    // }
   });
 });

@@ -31,7 +31,7 @@ body {
 input[type="button"] {
   width: 100%;
   padding: 30px 40px;
-  background-color: #c7395f;
+  background-color: rgb(199, 57, 95);
   color: white;
   font-size: 24px;
   font-weight: bold;
@@ -52,9 +52,16 @@ input[type="text"] {
   caret-color: transparent;
 }
 
-#calculator .key--clear,
-#calculator .key--operator {
-  background-color: #e8ba40;
+td > .key--clear,
+td > .key--operator {
+  --rgb: 232, 186, 64;
+  background-color: rgb(var(--rgb));
+  
+}
+
+td > .is-depressed {
+  --rgb: 232, 186, 64, 0.7;
+  /* background-color: rgb(232, 186, 64, 0.6); */
 }
 
 #calculator .key--equal {
