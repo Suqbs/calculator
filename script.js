@@ -26,7 +26,11 @@ keys.forEach((key) => {
     };
 
     if (!action) {
-      if (displayedNum === "0" || previousKeyType === "operator") {
+      if (
+        displayedNum === "0" ||
+        previousKeyType === "operator" ||
+        previousKeyType === "calculate"
+      ) {
         display.value = keyValue;
       } else {
         display.value = displayedNum + keyValue;
@@ -47,11 +51,16 @@ keys.forEach((key) => {
         if (firstValue && operator && previousKeyType !== "operator") {
           const calcValue = calculate(firstValue, operator, secondValue);
           display.value = calcValue;
+
+          // Update calculated value as firstValue
+          calculator.dataset.firstValue = calcValue;
+        } else {
+          // If there are no calculations, set displayedNum as the firstValue
+          calculator.dataset.firstValue = displayedNum;
         }
 
         calculator.dataset.previousKeyType = "operator";
         calculator.dataset.operator = action; // Store wanted operator
-        calculator.dataset.firstValue = displayedNum; // Store first entered number
         break;
       }
       case "decimal":
