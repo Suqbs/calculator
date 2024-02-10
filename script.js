@@ -11,16 +11,14 @@ keys.forEach((key) => {
 
     keys.forEach((k) => k.classList.remove("is-depressed"));
 
-    const calculate = (firstValue, operator, secondValue) => {
+    const calculate = (number1, operator, number2) => {
+      firstValue = parseFloat(number1);
+      secondValue = parseFloat(number2);
       methods = {
-        add: (firstValue, secondValue) =>
-          parseFloat(firstValue) + parseFloat(secondValue),
-        subtract: (firstValue, secondValue) =>
-          parseFloat(firstValue) - parseFloat(secondValue),
-        multiply: (firstValue, secondValue) =>
-          parseFloat(firstValue) * parseFloat(secondValue),
-        divide: (firstValue, secondValue) =>
-          parseFloat(firstValue) / parseFloat(secondValue),
+        add: (firstValue, secondValue) => firstValue + secondValue,
+        subtract: (firstValue, secondValue) => firstValue - secondValue,
+        multiply: (firstValue, secondValue) => firstValue * secondValue,
+        divide: (firstValue, secondValue) => firstValue / secondValue,
       };
       return methods[operator](firstValue, secondValue);
     };
