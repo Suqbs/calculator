@@ -48,7 +48,12 @@ keys.forEach((key) => {
         const secondValue = displayedNum;
         key.classList.add("is-depressed");
 
-        if (firstValue && operator && previousKeyType !== "operator") {
+        if (
+          firstValue &&
+          operator &&
+          previousKeyType !== "operator" &&
+          previousKeyType !== "calculate"
+        ) {
           const calcValue = calculate(firstValue, operator, secondValue);
           display.value = calcValue;
 
@@ -66,13 +71,22 @@ keys.forEach((key) => {
       case "decimal":
         if (!displayedNum.includes(".")) {
           display.value = displayedNum + ".";
-        } else if (previousKeyType === "operator") {
+        } else if (
+          previousKeyType === "operator" ||
+          previousKeyType === "calculate"
+        ) {
           display.value = "0.";
         }
 
         calculator.dataset.previousKeyType = "decimal";
         break;
       case "clear":
+        calculator.dataset.firstValue = "";
+        calculator.dataset.modValue = "";
+        calculator.dataset.operator = "";
+        calculator.dataset.previousKeyType = "";
+
+        display.value = 0;
         calculator.dataset.previousKeyType = "clear";
         break;
       case "calculate":
@@ -81,8 +95,7 @@ keys.forEach((key) => {
         let secondValue = displayedNum;
 
         if (firstValue && operator) {
-          if(previousKeyType === "calculate")
-          {
+          if (previousKeyType === "calculate") {
             firstValue = displayedNum;
             secondValue = calculator.dataset.modValue;
           }
