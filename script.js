@@ -1,6 +1,7 @@
 const calculator = document.querySelector(".innerDiv");
 const display = document.getElementById("result");
 const keys = calculator.querySelectorAll("td input[type='button']");
+calculator.dataset.calculateProcess = "out";
 
 keys.forEach((key) => {
   key.addEventListener("click", () => {
@@ -20,7 +21,11 @@ keys.forEach((key) => {
         multiply: (firstValue, secondValue) => firstValue * secondValue,
         divide: (firstValue, secondValue) => firstValue / secondValue,
       };
-      return methods[operator](firstValue, secondValue);
+      const result = methods[operator](firstValue, secondValue);
+      // Update both display and firstValue
+      display.value = result;
+      calculator.dataset.firstValue = result;
+      return result;
     };
 
     if (!action) {
@@ -34,9 +39,7 @@ keys.forEach((key) => {
         display.value = displayedNum + keyValue;
       }
 
-      if (previousKeyType !== "calculate") {
-        calculator.dataset.previousKeyType = "number";
-      }
+      calculator.dataset.previousKeyType = "number";
     }
 
     switch (action) {
@@ -48,12 +51,14 @@ keys.forEach((key) => {
         const operator = calculator.dataset.operator;
         const secondValue = displayedNum;
         key.classList.add("is-depressed");
+        console.log(typeof calculator.dataset.calculateProcess);
 
         if (
           firstValue &&
           operator &&
           previousKeyType !== "operator" &&
-          previousKeyType !== "calculate"
+          previousKeyType !== "calculate" &&
+          calculator.dataset.calculateProcess === "out"
         ) {
           const calcValue = calculate(firstValue, operator, secondValue);
           display.value = calcValue;
@@ -67,6 +72,7 @@ keys.forEach((key) => {
 
         calculator.dataset.previousKeyType = "operator";
         calculator.dataset.operator = action; // Store wanted operator
+        calculator.dataset.calculateProcess = "out";
         break;
       }
       case "decimal":
@@ -96,14 +102,15 @@ keys.forEach((key) => {
         let secondValue = displayedNum;
 
         if (firstValue && operator) {
-          if (previousKeyType === "calculate") {
+          if (previousKeyType === "calculate" || calculator.dataset.calculateProcess === "in") {
             firstValue = displayedNum;
             secondValue = calculator.dataset.modValue;
           }
-          display.value = calculate(firstValue, operator, secondValue);
+          calculate(firstValue, operator, secondValue);
         }
         calculator.dataset.modValue = secondValue;
         calculator.dataset.previousKeyType = "calculate";
+        calculator.dataset.calculateProcess = "in";
         break;
       }
     }
