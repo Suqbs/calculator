@@ -33,7 +33,10 @@ keys.forEach((key) => {
       } else {
         display.value = displayedNum + keyValue;
       }
-      calculator.dataset.previousKeyType = "number";
+
+      if (previousKeyType !== "calculate") {
+        calculator.dataset.previousKeyType = "number";
+      }
     }
 
     switch (action) {
@@ -87,7 +90,7 @@ keys.forEach((key) => {
         display.value = 0;
         calculator.dataset.previousKeyType = "clear";
         break;
-      case "calculate":
+      case "calculate": {
         let firstValue = calculator.dataset.firstValue;
         const operator = calculator.dataset.operator;
         let secondValue = displayedNum;
@@ -102,6 +105,7 @@ keys.forEach((key) => {
         calculator.dataset.modValue = secondValue;
         calculator.dataset.previousKeyType = "calculate";
         break;
+      }
     }
   });
 });
