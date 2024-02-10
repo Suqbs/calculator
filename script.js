@@ -5,6 +5,14 @@ calculator.dataset.calculateProcess = "out";
 
 keys.forEach((key) => {
   key.addEventListener("click", () => {
+    if (display.value === "Invalid input") {
+      calculator.dataset.firstValue = "";
+      calculator.dataset.modValue = "";
+      calculator.dataset.operator = "";
+      calculator.dataset.previousKeyType = "";
+      display.value = "0";
+    }
+
     const action = key.dataset.action;
     const keyValue = key.value;
     const displayedNum = display.value;
@@ -19,7 +27,13 @@ keys.forEach((key) => {
         add: (firstValue, secondValue) => firstValue + secondValue,
         subtract: (firstValue, secondValue) => firstValue - secondValue,
         multiply: (firstValue, secondValue) => firstValue * secondValue,
-        divide: (firstValue, secondValue) => firstValue / secondValue,
+        divide: (firstValue, secondValue) => {
+          if (secondValue === 0) {
+            return "Invalid input";
+          } else {
+            return firstValue / secondValue;
+          }
+        },
       };
       const result = methods[operator](firstValue, secondValue);
       // Update both display and firstValue
@@ -93,7 +107,7 @@ keys.forEach((key) => {
         calculator.dataset.operator = "";
         calculator.dataset.previousKeyType = "";
 
-        display.value = 0;
+        display.value = "0";
         calculator.dataset.previousKeyType = "clear";
         break;
       case "calculate": {
@@ -102,7 +116,10 @@ keys.forEach((key) => {
         let secondValue = displayedNum;
 
         if (firstValue && operator) {
-          if (previousKeyType === "calculate" || calculator.dataset.calculateProcess === "in") {
+          if (
+            previousKeyType === "calculate" ||
+            calculator.dataset.calculateProcess === "in"
+          ) {
             firstValue = displayedNum;
             secondValue = calculator.dataset.modValue;
           }
