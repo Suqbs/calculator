@@ -5,7 +5,7 @@ calculator.dataset.calculateProcess = "out";
 
 keys.forEach((key) => {
   key.addEventListener("click", () => {
-    if (display.value === "Invalid input") {
+    if (display.value === "Invalid input" || display.value === "Overflow" || display.value === "Approaching Zero") {
       calculator.dataset.firstValue = "";
       calculator.dataset.modValue = "";
       calculator.dataset.operator = "";
@@ -18,6 +18,7 @@ keys.forEach((key) => {
     const displayedNum = display.value;
     const previousKeyType = calculator.dataset.previousKeyType;
 
+    console.log(display.value.length);
     keys.forEach((k) => k.classList.remove("is-depressed"));
 
     const calculate = (number1, operator, number2) => {
@@ -28,30 +29,48 @@ keys.forEach((key) => {
         subtract: (firstValue, secondValue) => firstValue - secondValue,
         multiply: (firstValue, secondValue) => firstValue * secondValue,
         divide: (firstValue, secondValue) => {
+          // if(Math.abs(firstValue) > 1.2e-321)
+          // {
+          //   return "Approaching 0";
+          // }
+
           if (secondValue === 0) {
-            return "Invalid input";
+            return "Divided By Zero";
           } else {
+            if((firstValue / secondValue) < Number.MIN_VALUE && (firstValue / secondValue) > 0) return "Approaching Zero"
             return firstValue / secondValue;
           }
         },
       };
-      const result = methods[operator](firstValue, secondValue);
-      // Update both display and firstValue
-      display.value = result;
-      calculator.dataset.firstValue = result;
+
+      let result = methods[operator](firstValue, secondValue);
+      const stringResult = result.toString();
+
+      if (result >= Number.MAX_VALUE) return "Overflow";
+      if (result < Number.MAX_VALUE) {
+        if (result > Math.pow(10, 12)) result = result.toExponential("8");
+        else if (stringResult.includes("e") && (stringResult > 0 && stringResult < 1) || (stringResult < 0 && stringResult > -1))
+        {
+          result = result.toExponential("8");
+        }
+        else if (stringResult.includes(".") && stringResult.length >= 14) {
+          result = result.toFixed(14 - (stringResult.indexOf(".") + 1));
+        }
+      }
       return result;
     };
 
     if (!action) {
-      if (
-        displayedNum === "0" ||
-        previousKeyType === "operator" ||
-        previousKeyType === "calculate"
-      ) {
-        display.value = keyValue;
-      } else {
-        display.value = displayedNum + keyValue;
-      }
+      if (display.value.length < 14 || previousKeyType !== "number")
+        if (
+          displayedNum === "0" ||
+          previousKeyType === "operator" ||
+          previousKeyType === "calculate"
+        ) {
+          display.value = keyValue;
+        } else {
+          display.value = displayedNum + keyValue;
+        }
 
       calculator.dataset.previousKeyType = "number";
     }
@@ -65,7 +84,6 @@ keys.forEach((key) => {
         const operator = calculator.dataset.operator;
         const secondValue = displayedNum;
         key.classList.add("is-depressed");
-        console.log(typeof calculator.dataset.calculateProcess);
 
         if (
           firstValue &&
@@ -123,7 +141,11 @@ keys.forEach((key) => {
             firstValue = displayedNum;
             secondValue = calculator.dataset.modValue;
           }
-          calculate(firstValue, operator, secondValue);
+          display.value = calculator.dataset.firstValue = calculate(
+            firstValue,
+            operator,
+            secondValue
+          );
         }
         calculator.dataset.modValue = secondValue;
         calculator.dataset.previousKeyType = "calculate";
