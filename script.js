@@ -37,7 +37,7 @@ keys.forEach((key) => {
           if (secondValue === 0) {
             return "Divided By Zero";
           } else {
-            if((firstValue / secondValue) < Number.MIN_VALUE && (firstValue / secondValue) > 0) return "Approaching Zero"
+            // if((firstValue / secondValue) < Number.MIN_VALUE && (firstValue / secondValue) > 0) return "Approaching Zero"
             return firstValue / secondValue;
           }
         },
