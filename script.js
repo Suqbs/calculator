@@ -5,7 +5,11 @@ calculator.dataset.calculateProcess = "out";
 
 keys.forEach((key) => {
   key.addEventListener("click", () => {
-    if (display.value === "Invalid input" || display.value === "Overflow" || display.value === "Approaching Zero") {
+    if (
+      display.value === "Invalid input" ||
+      display.value === "Overflow" ||
+      display.value === "Approached Zero"
+    ) {
       calculator.dataset.firstValue = "";
       calculator.dataset.modValue = "";
       calculator.dataset.operator = "";
@@ -29,15 +33,12 @@ keys.forEach((key) => {
         subtract: (firstValue, secondValue) => firstValue - secondValue,
         multiply: (firstValue, secondValue) => firstValue * secondValue,
         divide: (firstValue, secondValue) => {
-          // if(Math.abs(firstValue) > 1.2e-321)
-          // {
-          //   return "Approaching 0";
-          // }
-
           if (secondValue === 0) {
             return "Divided By Zero";
           } else {
-            // if((firstValue / secondValue) < Number.MIN_VALUE && (firstValue / secondValue) > 0) return "Approaching Zero"
+            if (firstValue / secondValue === 0 && firstValue != 0)
+              //Temp fix for Approaching Zero
+              return "Approached Zero";
             return firstValue / secondValue;
           }
         },
@@ -49,11 +50,14 @@ keys.forEach((key) => {
       if (result >= Number.MAX_VALUE) return "Overflow";
       if (result < Number.MAX_VALUE) {
         if (result > Math.pow(10, 12)) result = result.toExponential("8");
-        else if (stringResult.includes("e") && (stringResult > 0 && stringResult < 1) || (stringResult < 0 && stringResult > -1))
-        {
+        else if (
+          (stringResult.includes("e") &&
+            stringResult > 0 &&
+            stringResult < 1) ||
+          (stringResult < 0 && stringResult > -1)
+        ) {
           result = result.toExponential("8");
-        }
-        else if (stringResult.includes(".") && stringResult.length >= 14) {
+        } else if (stringResult.includes(".") && stringResult.length >= 14) {
           result = result.toFixed(14 - (stringResult.indexOf(".") + 1));
         }
       }
