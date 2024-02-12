@@ -159,3 +159,25 @@ keys.forEach((key) => {
     }
   });
 });
+
+const keyMap = {
+  "+": "add",
+  "-": "subtract",
+  "*": "multiply",
+  "/": "divide",
+  " ": "clear"
+}
+
+window.addEventListener("keydown", (e) => {
+  let keyboardKey = e.key;
+  if(e.key === "*") keyboardKey = "x";
+  if(e.key === " ") keyboardKey = "C";
+  if(e.key === "Enter") keyboardKey = "=";
+
+  keys.forEach((key) => {
+    if(keyboardKey === key.value)
+    {
+      key.click();
+    }
+  })
+});
