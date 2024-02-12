@@ -112,18 +112,15 @@ keys.forEach((key) => {
         break;
       }
       case "decimal":
-        if(display.value.length < 13)
-        {
-          if (!displayedNum.includes(".")) {
-            display.value = displayedNum + ".";
-            calculator.dataset.previousKeyType = "decimal";
-          } else if (
-            previousKeyType === "operator" ||
-            previousKeyType === "calculate"
-          ) {
-            display.value = "0.";
-            calculator.dataset.previousKeyType = "decimal";
-          }
+        if (!displayedNum.includes(".") && display.value.length < 13) {
+          display.value = displayedNum + ".";
+          calculator.dataset.previousKeyType = "decimal";
+        } else if (
+          previousKeyType === "operator" ||
+          previousKeyType === "calculate"
+        ) {
+          display.value = "0.";
+          calculator.dataset.previousKeyType = "decimal";
         }
 
         break;
@@ -185,5 +182,5 @@ window.addEventListener("keydown", (e) => {
 });
 
 window.addEventListener("keyup", (e) => {
-  keys.forEach(key => key.classList.remove("active"));
+  keys.forEach((key) => key.classList.remove("active"));
 });
