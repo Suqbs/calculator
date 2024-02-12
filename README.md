@@ -4,6 +4,7 @@ I embarked on this calculator project for The Odin Project with the goal of craf
 Building on that foundation, I implemented several additional features to enhance the calculator's functionality and user experience:
 
 - Keyboard Support
+- Switch to scientific notation for numbers that overflow the display.
 - Overflow Handling
 - Approaching Zero Behaviour
 - Decimal Precision
