@@ -65,7 +65,7 @@ keys.forEach((key) => {
     };
 
     if (!action) {
-      if (display.value.length < 14 || previousKeyType !== "number")
+      if (display.value.length < 14 || previousKeyType !== "number") {
         if (
           displayedNum === "0" ||
           previousKeyType === "operator" ||
@@ -75,6 +75,7 @@ keys.forEach((key) => {
         } else {
           display.value = displayedNum + keyValue;
         }
+      }
 
       calculator.dataset.previousKeyType = "number";
     }
@@ -112,16 +113,20 @@ keys.forEach((key) => {
         break;
       }
       case "decimal":
-        if (!displayedNum.includes(".")) {
-          display.value = displayedNum + ".";
-        } else if (
-          previousKeyType === "operator" ||
-          previousKeyType === "calculate"
-        ) {
-          display.value = "0.";
+        if(display.value.length < 13)
+        {
+          if (!displayedNum.includes(".")) {
+            display.value = displayedNum + ".";
+            calculator.dataset.previousKeyType = "decimal";
+          } else if (
+            previousKeyType === "operator" ||
+            previousKeyType === "calculate"
+          ) {
+            display.value = "0.";
+            calculator.dataset.previousKeyType = "decimal";
+          }
         }
 
-        calculator.dataset.previousKeyType = "decimal";
         break;
       case "clear":
         calculator.dataset.firstValue = "";
@@ -160,24 +165,22 @@ keys.forEach((key) => {
   });
 });
 
-const keyMap = {
-  "+": "add",
-  "-": "subtract",
-  "*": "multiply",
-  "/": "divide",
-  " ": "clear"
-}
-
 window.addEventListener("keydown", (e) => {
   let keyboardKey = e.key;
-  if(e.key === "*") keyboardKey = "x";
-  if(e.key === " ") keyboardKey = "C";
-  if(e.key === "Enter") keyboardKey = "=";
+  if (e.key === " ") {
+    e.preventDefault();
+    keyboardKey = "C";
+  }
+  if (e.key === "Enter") {
+    e.preventDefault();
+    keyboardKey = "=";
+  }
+  if (e.key === "*") keyboardKey = "x";
 
   keys.forEach((key) => {
-    if(keyboardKey === key.value)
-    {
+    if (keyboardKey === key.value) {
+      key.focus();
       key.click();
     }
-  })
+  });
 });
