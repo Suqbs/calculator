@@ -179,8 +179,12 @@ window.addEventListener("keydown", (e) => {
 
   keys.forEach((key) => {
     if (keyboardKey === key.value) {
-      key.focus();
+      key.classList.add("active");
       key.click();
     }
   });
+});
+
+window.addEventListener("keyup", (e) => {
+  keys.forEach(key => key.classList.remove("active"));
 });

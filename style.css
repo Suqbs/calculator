@@ -48,6 +48,10 @@ input[type="button"]:active {
   background-color: rgb(var(--rgb), 0.5);
 }
 
+input[type="button"].active {
+  background-color: rgb(var(--rgb), 0.5);
+}
+ 
 input[type="text"] {
   background-color: #ded4e8;
   height: 90px;
