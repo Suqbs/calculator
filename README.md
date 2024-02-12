@@ -7,6 +7,6 @@ Building on that foundation, I implemented several additional features to enhanc
 - Overflow Handling
 - Approaching Zero Behaviour
 - Decimal Precision
-- Visual effects
+- Visual Effects
 
 Thank you for taking your time reading this. Have a good day :)
