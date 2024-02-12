@@ -22,7 +22,6 @@ keys.forEach((key) => {
     const displayedNum = display.value;
     const previousKeyType = calculator.dataset.previousKeyType;
 
-    console.log(display.value.length);
     keys.forEach((k) => k.classList.remove("is-depressed"));
 
     const calculate = (number1, operator, number2) => {
