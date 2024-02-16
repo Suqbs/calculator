@@ -6,7 +6,7 @@ calculator.dataset.calculateProcess = "out";
 keys.forEach((key) => {
   key.addEventListener("click", () => {
     if (
-      display.value === "Invalid input" ||
+      display.value === "Divided By Zero" ||
       display.value === "Overflow" ||
       display.value === "Approached Zero"
     ) {
